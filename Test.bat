@@ -1,4 +1,4 @@
-@echo Off
+@echo OFF
 TITLE Install Dev Environment (wget, Python and python libraries)
 echo.
 @echo :::: Install Dev Environment (wget, Python, Arduino and python libraries) ::::
@@ -42,17 +42,18 @@ if exist %pythondir% (@echo SUCCESS: Python exists on this system.) else (
 rem This is the python pip install section
 rem <# Please wait 5 seconds..... #>
 timeout /t 5
-python -m pip install --upgrade pip
-python -m pip install --upgrade setuptools
-python -m pip install --upgrade python-build
-python -m pip install --upgrade matplotlib
-python -m pip install --upgrade numpy
-python -m pip install --upgrade beautifulsoup4
-python -m pip install --upgrade pyserial
-python -m pip install --upgrade pyaudio
-python -m pip install --upgrade pyusb
-python -m pip install --upgrade jupyter
-python -m pip install --upgrade pytools
+rem python -m pip install --upgrade pip
+rem python -m pip install --upgrade setuptools
+rem python -m pip install --upgrade python-build
+rem python -m pip install --upgrade matplotlib
+rem python -m pip install --upgrade numpy
+rem python -m pip install --upgrade beautifulsoup4
+rem python -m pip install --upgrade pyserial
+rem python -m pip install --upgrade pyaudio
+rem python -m pip install --upgrade pyusb
+rem python -m pip install --upgrade jupyter
+rem python -m pip install --upgrade pytools
+pyton -m pip install --upgrade -r requirements.txt
 rem <#Remember to run these commands in the atom PS shell#>
 timeout /t 5
 
