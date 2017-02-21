@@ -10,13 +10,13 @@ echo.
 set wgetlink=https://eternallybored.org/misc/wget/current/wget64.exe
 set pythlink=https://www.python.org/ftp/python/2.7.13/python-2.7.13.amd64.msi
 set llvmlink=http://releases.llvm.org/3.9.1/LLVM-3.9.1-win64.exe
-set ardlink=LINK
+set ardlink=https://www.arduino.cc/download_handler.php
 
 :::: Change where programs are installed on your comp already or will be installed
-set wgetdir=C:\wget64.exe
+set wgetdir=wget64.exe
 set pythondir=C:\Python27\python.exe
 set clangdir=C:\Program Files\LLVM\bin\clang.exe
-set arddir=https://www.arduino.cc/download_handler.php
+set arddir=C:\Program Files (x86)\Arduino\arduino.exe
 
 :::: Error Messages
 set exit=Program is now exiting...
@@ -24,18 +24,21 @@ set w64err=ERROR: wget64.exe not found in %wgetdir%.
 set pytherr=ERROR: python.exe not found in %pythondir%
 
 :::: Commmand Shortcuts
-set download=C:\wget64.exe -nc --directory-prefix=Downloads
+set download=wget64.exe -nc --directory-prefix=Downloads
 
 :::::: Check what programs exist
 
 :: The &echo. at the end adds the newline to the next line so you get a skipped line
 @echo Checking for existing programs...&echo.
-if exist %wgetdir% (@echo SUCCESS: wget64.exe exists in C&echo.) else (call:Downwget64)
+if exist %wgetdir% (@echo SUCCESS: wget64.exe exists in current folder&echo.) else (call:Downwget64)
 ::Wait for user input to ensure that everything happened successfully
 PAUSE
 
 if exist %pythondir% (@echo SUCCESS: Python exists on this system.) else (
 	call:DownPyth27)
+
+if exist %clangdir% (@echo SUCCESS: Clang exists on this system&echo.) else (
+	call:DownClang)
 
 
 :::: Install your standard python libs via pip
@@ -89,7 +92,7 @@ goto:eof
 echo.
 @echo Function running: installncheck_wget
 echo.
-@echo Transfer wget64 to C:\ otherwise this batch will terminate.
+@echo Transfer wget64 to current batch file folder otherwise this batch will terminate.
 :: Download wget64.exe via web browser
 start %wgetlink%
 echo.
@@ -124,7 +127,7 @@ if exist %pythondir% (@echo SUCCESS: Python was succesfully installed.) else (
 	echo.&call:DownPyth27)
 echo.&pause&goto:eof
 
-
+:
 
 
 
