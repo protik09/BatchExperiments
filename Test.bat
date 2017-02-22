@@ -3,13 +3,15 @@ TITLE Install Dev Environment (wget, Python and python libraries)
 echo.
 @echo :::: Install Dev Environment (wget, Python, Arduino and python libraries) ::::
 echo.
+:: Backgroud to black & foreground to purple
+color 05
 
 :::::: Initialise global variables
 
 :::: Change links to most recent ones manually
 set wgetlink=https://eternallybored.org/misc/wget/current/wget64.exe
 set pythlink=https://www.python.org/ftp/python/2.7.13/python-2.7.13.amd64.msi
-set llvmlink=http://releases.llvm.org/3.9.1/LLVM-3.9.1-win64.exe
+set clanglink=http://releases.llvm.org/3.9.1/LLVM-3.9.1-win64.exe
 set ardlink=https://www.arduino.cc/download_handler.php
 
 :::: Change where programs are installed on your comp already or will be installed
@@ -38,7 +40,7 @@ if exist %pythondir% (@echo SUCCESS: Python exists on this system.) else (
 	call:DownPyth27)
 
 if exist %clangdir% (@echo SUCCESS: Clang exists on this system&echo.) else (
-	call:DownClang)
+	call:DownClang )
 
 
 :::: Install your standard python libs via pip
@@ -56,25 +58,30 @@ rem python -m pip install --upgrade pyaudio
 rem python -m pip install --upgrade pyusb
 rem python -m pip install --upgrade jupyter
 rem python -m pip install --upgrade pytools
-pyton -m pip install --upgrade -r requirements.txt
+python -m pip install --upgrade -r requirements.txt
 rem <#Remember to run these commands in the atom PS shell#>
 timeout /t 5
 
-@echo "Installing Python linter for Atom...."
-timeout /t 5
-python -m pip install --upgrade flake8
-python -m pip install --upgrade flake8-docstrings
+rem @echo "Installing Python linter for Atom...."
+rem timeout /t 5
+rem python -m pip install --upgrade flake8
+rem python -m pip install --upgrade flake8-docstrings
 rem <#apm install linter-flake8 #>
 rem <#Remember to run these above in the atom PS shell#>
 
+echo.
 @echo Dowloading required distributions via wget cmdlet
-if exist source\NUL @echo Folder Already Exists. Downloading...
+if exist Downloads\NUL (@echo Folder Already Exists. Downloading...) else (
+	mkdir Downloads)
 
 rem https://eternallybored.org/misc/wget/
 
+echo.
 echo Copying files to Python Scripts folder.....
 timeout /t 5
 
+:: Revert text color back to white (default)
+color
 exit /B
 
 :Downwget64
@@ -98,7 +105,7 @@ start %wgetlink%
 echo.
 PAUSE
 :: Check to make sure wget64 is indeed there in C drive otherwise exit
-if exist C:\wget64.exe (@echo SUCCESS: wget64.exe exists. Continuing...&echo.) else (
+if exist wget64.exe (@echo SUCCESS: wget64.exe exists. Continuing...&echo.) else (
 	echo.&echo.%w64err% %exit%&call:ExitBatch)
 goto:eof
 
@@ -127,11 +134,22 @@ if exist %pythondir% (@echo SUCCESS: Python was succesfully installed.) else (
 	echo.&call:DownPyth27)
 echo.&pause&goto:eof
 
-:
+:DownClang
+echo.
+set /P clangdown="Do you wish to install clang (linter for Atom)? (Y/N): "
+if /I %clangdown%==n goto:eof
+if /I %clangdown%==y goto:installncheck_clang
 
-
-
-
+:installncheck_clang
+echo.
+@echo Installing clangllvm....
+:: wget with no overwrite existing file -nc and download directory Downloads
+%download% %clanglink%
+cd Downloads
+start LLVM*.exe
+cd..
+echo Make sure that you go the next step after finishing the install.
+PAUSE
 
 :: CLEAN BATCH EXIT SECTION from https://stackoverflow.com/questions/3227796/exit-batch-script-from-inside-a-function/25474648#25474648
 @echo off
