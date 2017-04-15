@@ -1,0 +1,14 @@
+pip
+setuptools
+pyhton-build
+pytools
+piprot
+matplotlib
+numpy
+beautifulsoup4
+pyserial
+pyaudio
+pyusb
+jupyter
+flake8
+flake8-docstrings
