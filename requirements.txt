@@ -1,6 +1,6 @@
 pip
 setuptools
-pyhton-build
+python-build
 pytools
 piprot
 matplotlib
